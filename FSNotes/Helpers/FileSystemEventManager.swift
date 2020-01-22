@@ -9,6 +9,7 @@
 import Foundation
 import FSNotesCore_macOS
 
+/// 文件系统监听者
 class FileSystemEventManager {
     private var storage: Storage
     private var delegate: ViewController

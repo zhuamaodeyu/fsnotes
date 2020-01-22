@@ -9,6 +9,15 @@
 import AppKit.NSAppearance
 
 extension NSAppearance {
+    
+    /// 是否是黑暗模式
+    /*
+     aqua: 标准外观
+     darkAqua: 标准深色
+     vibrantLight: 轻盈外观，仅在 visual effect 中有用
+     ...
+     带有 dark 的都是黑暗模式 
+    */
     var isDark: Bool {
         if self.name == .vibrantDark { return true }
 

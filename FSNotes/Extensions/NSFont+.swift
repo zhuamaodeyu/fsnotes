@@ -9,14 +9,18 @@
 import Cocoa
 
 extension NSFont {
+    
+    /// 是否是粗体
     var isBold: Bool {
         return fontDescriptor.symbolicTraits.contains(.bold)
     }
     
+    /// 斜体
     var isItalic: Bool {
         return fontDescriptor.symbolicTraits.contains(.italic)
     }
     
+    ///高度
     var height:CGFloat {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
         
@@ -24,7 +28,8 @@ extension NSFont {
         
         return boundingBox.height
     }
-        
+    
+    /// 斜体字体
     static func italicFont() -> NSFont {
         return NSFontManager().convert(UserDefaultsManagement.noteFont, toHaveTrait: .italicFontMask)
     }

@@ -14,13 +14,19 @@ import FSNotesCore_macOS
 class PreferencesGeneralViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
+        // 表示当前视图的大小，在布局时， 父视图可能会询问
         preferredContentSize = NSSize(width: 476, height: 413)
     }
-
+    
+    // 外部编辑器打开
     @IBOutlet var externalEditorApp: NSTextField!
+    
+    // 快捷键
     @IBOutlet var newNoteshortcutView: MASShortcutView!
     @IBOutlet var searchNotesShortcut: MASShortcutView!
+    // 存储位置控件
     @IBOutlet weak var defaultStoragePath: NSPathControl!
+    
     @IBOutlet weak var showDockIcon: NSButton!
     @IBOutlet weak var txtAsMarkdown: NSButton!
     @IBOutlet weak var showInMenuBar: NSButton!
@@ -28,7 +34,7 @@ class PreferencesGeneralViewController: NSViewController {
     @IBOutlet weak var fileContainer: NSPopUpButton!
 
     //MARK: global variables
-
+    
     let storage = Storage.sharedInstance()
 
     override func viewDidLoad() {
@@ -37,6 +43,7 @@ class PreferencesGeneralViewController: NSViewController {
     }
 
     override func viewDidAppear() {
+        // 设置 titile
         self.view.window!.title = NSLocalizedString("Preferences", comment: "")
 
         externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
@@ -142,9 +149,14 @@ class PreferencesGeneralViewController: NSViewController {
     @IBAction func showDockIcon(_ sender: NSButton) {
         let isEnabled = sender.state == .on
         UserDefaultsManagement.showDockIcon = isEnabled
-
+        
+        // 修改了程序激活策略   regular ： 出现在Dock中的普通程序，可能存在用户界面
+        // accessory: 没有出现在dock， 也没有菜单栏， 但可以通过编程方式或通过单击窗口之一激活
+        // prohibited: 改应用程序不会出现在Dock， 并且可能不会创建窗口或被激活
         NSApp.setActivationPolicy(isEnabled ? .regular : .accessory)
-
+        
+        // 此处关闭Dock:
+            // 顶部没有 menu 并且 dock 也没有对应程序
         DispatchQueue.main.async {
             NSMenu.setMenuBarVisible(true)
             NSApp.activate(ignoringOtherApps: true)
@@ -154,7 +166,8 @@ class PreferencesGeneralViewController: NSViewController {
     @IBAction func txtAsMarkdown(_ sender: NSButton) {
         UserDefaultsManagement.txtAsMarkdown = sender.state == .on
     }
-
+    
+    // 是否在顶部显示对应的图标
     @IBAction func showInMenuBar(_ sender: NSButton) {
         UserDefaultsManagement.showInMenuBar = sender.state == .on
 
@@ -164,7 +177,7 @@ class PreferencesGeneralViewController: NSViewController {
             appDelegate.removeMenuBar(nil)
             return
         }
-
+        
         appDelegate.addMenuBar(nil)
     }
 

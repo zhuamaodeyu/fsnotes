@@ -13,6 +13,9 @@ import Foundation
     import UIKit
 #endif
 
+
+///  图片处理
+
 public class ImagesProcessor {
 #if os(OSX)
     typealias Size = NSSize

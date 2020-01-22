@@ -1,5 +1,7 @@
 import Cocoa
 
+/// https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/FSEvents_ProgGuide/UsingtheFSEventsFramework/UsingtheFSEventsFramework.html
+/// 文件监听
 class FileWatcher{
   let filePaths: [String]  // -- paths to watch - works on folders and file paths
   
@@ -22,7 +24,7 @@ class FileWatcher{
       retain: retainCallback, release: releaseCallback,
       copyDescription:nil
     )
-    
+    // 创建i流
     streamRef = FSEventStreamCreate(
       kCFAllocatorDefault, eventCallback, &context,
       filePaths as CFArray,FSEventStreamEventId(kFSEventStreamEventIdSinceNow), 0,
@@ -30,6 +32,7 @@ class FileWatcher{
     )
     
     selectStreamScheduler()
+    // 启动监听
     FSEventStreamStart(streamRef!)
   }
   
@@ -65,7 +68,8 @@ class FileWatcher{
   private let releaseCallback:CFAllocatorReleaseCallBack = {(info:UnsafeRawPointer?) in
     Unmanaged<FileWatcher>.fromOpaque(info!).release()
   }
-  
+    
+    /// 调度
   private func selectStreamScheduler() {
     if let queue = queue {
       FSEventStreamSetDispatchQueue(streamRef!, queue)

@@ -9,6 +9,8 @@
 import libcmark_gfm
 
 
+/// 将markdown 转换为 HTML 
+/// - Parameter markdown: <#markdown description#>
 func renderMarkdownHTML(markdown: String) -> String? {
     
     cmark_gfm_core_extensions_ensure_registered()
